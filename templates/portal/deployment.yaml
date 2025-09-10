@@ -80,6 +80,7 @@ spec:
             scheme: {{ include "harbor.component.scheme" . | upper }}
             port: {{ template "harbor.portal.containerPort" . }}
           initialDelaySeconds: 300
+          timeoutSeconds: {{ .Values.portal.timeoutSeconds }}
           periodSeconds: 10
         readinessProbe:
           httpGet:
@@ -87,6 +88,7 @@ spec:
             scheme: {{ include "harbor.component.scheme" . | upper }}
             port: {{ template "harbor.portal.containerPort" . }}
           initialDelaySeconds: 1
+          timeoutSeconds: {{ .Values.portal.timeoutSeconds }}
           periodSeconds: 10
         ports:
         - containerPort: {{ template "harbor.portal.containerPort" . }}

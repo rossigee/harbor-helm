@@ -270,7 +270,7 @@ persistence:
 # The initial password of Harbor admin. Change it from portal after launching Harbor
 # or give an existing secret for it
 # key in secret is given via (default to HARBOR_ADMIN_PASSWORD)
-existingSecretAdminPassword: ""
+# existingSecretAdminPassword:
 existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
 harborAdminPassword: "Harbor12345"
 
@@ -550,6 +550,8 @@ portal:
   # - name: wait
   #   image: busybox
   #   command: [ 'sh', '-c', "sleep 20" ]
+  ## Timeout for liveness/readiness probes
+  timeoutSeconds: 3
 
 core:
   image:
@@ -594,6 +596,8 @@ core:
   # - name: wait
   #   image: busybox
   #   command: [ 'sh', '-c', "sleep 20" ]
+  ## Timeout for liveness/readiness probes
+  timeoutSeconds: 3
   ## User settings configuration json string
   configureUserSettings:
   # The provider for updating project quota(usage), there are 2 options, redis or db.
@@ -625,8 +629,6 @@ core:
   # If tokenKey is set, the value of tokenCert must be set as a PEM-encoded certificate signed by tokenKey, and supplied as a multiline string, indented one more than tokenCert on the following line.
   tokenCert: |
   # The XSRF key. Will be generated automatically if it isn't specified
-  # While you specified, Please make sure it is 32 characters, otherwise would have validation issue at the harbor-core runtime
-  # https://github.com/goharbor/harbor/pull/21154
   xsrfKey: ""
   # If using existingSecret, the key is defined by core.existingXsrfSecretKey
   existingXsrfSecret: ""
@@ -685,6 +687,10 @@ jobservice:
     # - stdout
   # The jobLogger sweeper duration (ignored if `jobLogger` is `stdout`)
   loggerSweeperDuration: 14 #days
+  # Enable persistence for job logs. When disabled, job logs will use emptyDir storage
+  # and will be lost when pods restart. Defaults to true when global persistence is enabled.
+  persistence:
+    enabled: true
   notification:
     webhook_job_max_retry: 3
     webhook_job_http_client_timeout: 3 # in seconds

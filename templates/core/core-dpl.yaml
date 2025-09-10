@@ -82,6 +82,7 @@ spec:
             scheme: {{ include "harbor.component.scheme" . | upper }}
             port: {{ template "harbor.core.containerPort" . }}
           failureThreshold: 2
+          timeoutSeconds: {{ .Values.core.timeoutSeconds }}
           periodSeconds: 10
         readinessProbe:
           httpGet:
@@ -89,6 +90,7 @@ spec:
             scheme: {{ include "harbor.component.scheme" . | upper }}
             port: {{ template "harbor.core.containerPort" . }}
           failureThreshold: 2
+          timeoutSeconds: {{ .Values.core.timeoutSeconds }}
           periodSeconds: 10
         envFrom:
         - configMapRef:
